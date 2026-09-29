@@ -125,8 +125,7 @@ impl BatteryApp {
             return;
         }
         unsafe {
-            use windows::Win32::Media::PlaySoundW;
-            use windows::Win32::System::Memory::GlobalLock;
+            use windows::Win32::Media::Audio::{PlaySoundW, SND_ALIAS, SND_ASYNC};
             
             let sound_name: Vec<u16> = match sound_type {
                 "disconnect" => "SystemHand".encode_utf16().chain(std::iter::once(0)).collect(),
@@ -138,7 +137,7 @@ impl BatteryApp {
             PlaySoundW(
                 windows::core::PCWSTR(sound_name.as_ptr()),
                 None,
-                windows::Win32::Media::SND_ALIAS | windows::Win32::Media::SND_ASYNC,
+                SND_ALIAS | SND_ASYNC,
             );
         }
     }
@@ -362,8 +361,7 @@ fn disable_autostart() -> bool {
 }
 
 fn check_for_updates() -> Option<String> {
-    // TODO: Reemplazar con el nombre real del repositorio
-    let repo_owner = "tu_usuario";
+    let repo_owner = "fvnks";
     let repo_name = "battery_monitor";
     
     let url = format!("https://api.github.com/repos/{}/{}/releases/latest", repo_owner, repo_name);
