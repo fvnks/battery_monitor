@@ -807,11 +807,10 @@ impl eframe::App for BatteryApp {
                                 .strong()
                                 .color(text_secondary),
                         );
-                        ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
-                            if ui.button(if self.show_graph { "Ocultar" } else { "Mostrar" }).clicked() {
-                                self.show_graph = !self.show_graph;
-                            }
-                        });
+                        ui.add_space(10.0);
+                        if ui.button(if self.show_graph { "Ocultar" } else { "Mostrar" }).clicked() {
+                            self.show_graph = !self.show_graph;
+                        }
                     });
 
                     ui.add_space(10.0);
@@ -1008,34 +1007,30 @@ impl eframe::App for BatteryApp {
                             ui.set_min_width(440.0);
                             
                             // Autostart
-                            ui.horizontal(|ui| {
-                                ui.vertical(|ui| {
-                                    ui.label(
-                                        egui::RichText::new("⚙️ Iniciar con Windows")
-                                            .size(13.0)
-                                            .strong()
-                                            .color(text_primary),
-                                    );
-                                    ui.add_space(3.0);
-                                    ui.label(
-                                        egui::RichText::new("La aplicación se iniciará automáticamente al encender el equipo")
-                                            .size(10.0)
-                                            .color(text_secondary),
-                                    );
-                                });
-                                ui.add_space(20.0);
-                                let mut autostart = self.autostart;
-                                if ui.checkbox(&mut autostart, "").changed() {
-                                    self.autostart = autostart;
-                                    self.toggle_autostart();
-                                }
-                                ui.add_space(5.0);
-                                if self.autostart {
-                                    ui.colored_label(success, "✓ Activado");
-                                } else {
-                                    ui.colored_label(text_secondary, "○ Desactivado");
-                                }
-                            });
+                            ui.label(
+                                egui::RichText::new("⚙️ Iniciar con Windows")
+                                    .size(13.0)
+                                    .strong()
+                                    .color(text_primary),
+                            );
+                            ui.add_space(3.0);
+                            ui.label(
+                                egui::RichText::new("La aplicación se iniciará automáticamente al encender el equipo")
+                                    .size(10.0)
+                                    .color(text_secondary),
+                            );
+                            ui.add_space(10.0);
+                            let mut autostart = self.autostart;
+                            if ui.checkbox(&mut autostart, "").changed() {
+                                self.autostart = autostart;
+                                self.toggle_autostart();
+                            }
+                            ui.add_space(5.0);
+                            if self.autostart {
+                                ui.colored_label(success, "✓ Activado");
+                            } else {
+                                ui.colored_label(text_secondary, "○ Desactivado");
+                            }
 
                             ui.add_space(15.0);
                             ui.separator();
