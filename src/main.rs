@@ -148,7 +148,7 @@ impl BatteryApp {
             if enable_autostart() {
                 self.error_message = None;
             } else {
-                self.error_message = Some("Error al activar autostart".to_string());
+                self.error_message = Some("Error al activar autostart. Verifica permisos de administrador.".to_string());
                 self.autostart = false;
             }
         } else {
@@ -1028,6 +1028,12 @@ impl eframe::App for BatteryApp {
                                 if ui.checkbox(&mut autostart, "").changed() {
                                     self.autostart = autostart;
                                     self.toggle_autostart();
+                                }
+                                ui.add_space(5.0);
+                                if self.autostart {
+                                    ui.colored_label(success, "✓ Activado");
+                                } else {
+                                    ui.colored_label(text_secondary, "○ Desactivado");
                                 }
                             });
 
