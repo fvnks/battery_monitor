@@ -1,0 +1,5 @@
+/target
+**/*.rs.bk
+*.pdb
+battery_history.json
+Cargo.lock
