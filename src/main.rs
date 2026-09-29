@@ -134,7 +134,7 @@ impl BatteryApp {
                 _ => return,
             };
             
-            PlaySoundW(
+            let _ = PlaySoundW(
                 windows::core::PCWSTR(sound_name.as_ptr()),
                 None,
                 SND_ALIAS | SND_ASYNC,
@@ -294,7 +294,7 @@ fn check_autostart() -> bool {
                 None,
                 Some(&mut data_size),
             );
-            RegCloseKey(hkey);
+            let _ = RegCloseKey(hkey);
             result.is_ok()
         } else {
             false
@@ -324,14 +324,14 @@ fn enable_autostart() -> bool {
                 value_data.as_ptr() as *const u8,
                 value_data.len() * 2,
             );
-            RegSetValueExW(
+            let _ = RegSetValueExW(
                 hkey,
                 PCWSTR(value_name.as_ptr()),
                 0,
                 REG_SZ,
                 Some(byte_data),
             );
-            RegCloseKey(hkey);
+            let _ = RegCloseKey(hkey);
             true
         } else {
             false
@@ -351,8 +351,8 @@ fn disable_autostart() -> bool {
             &mut hkey,
         ).is_ok() {
             let value_name: Vec<u16> = APP_NAME.encode_utf16().chain(std::iter::once(0)).collect();
-            RegDeleteValueW(hkey, PCWSTR(value_name.as_ptr()));
-            RegCloseKey(hkey);
+            let _ = RegDeleteValueW(hkey, PCWSTR(value_name.as_ptr()));
+            let _ = RegCloseKey(hkey);
             true
         } else {
             false
@@ -869,8 +869,8 @@ impl eframe::App for BatteryApp {
                                     }).collect();
                                     
                                     // Dibujar líneas
-                                    painter.line_segment([points_start[0], points_start[n-1]], egui::Stroke::new(2.0, primary));
-                                    painter.line_segment([points_end[0], points_end[n-1]], egui::Stroke::new(2.0, success));
+                                    painter.line_segment([points_start[0], points_start[n-1]], egui::Stroke::new(2.0_f32, primary));
+                                    painter.line_segment([points_end[0], points_end[n-1]], egui::Stroke::new(2.0_f32, success));
                                     
                                     // Dibujar puntos
                                     for i in 0..n {
